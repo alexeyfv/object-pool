@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Benchmark.ObjectPoolBenchmark-20241130-090611</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Windows 10 (10.0.19045.5131/22H2/2022Update)
+12th Gen Intel Core i7-12800H, 1 CPU, 20 logical and 14 physical cores
+.NET SDK 8.0.303
+  [Host]     : .NET 8.0.7 (8.0.724.31311), X64 RyuJIT AVX2
+  Job-XRLNCT : .NET 8.0.7 (8.0.724.31311), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>IterationCount=25  
+</code></pre>
+
+<table>
+<thead><tr><th>Method </th><th>Size</th><th>Mean    </th><th>Error  </th><th>StdDev  </th><th>Median  </th><th>Ratio</th><th>RatioSD</th><th>Gen0 </th><th>Gen1 </th><th>Gen2 </th><th>Allocated</th><th>Alloc Ratio</th>
+</tr>
+</thead><tbody><tr><td>UsePooledList</td><td>10</td><td>2.839 &mu;s</td><td>0.0425 &mu;s</td><td>0.0538 &mu;s</td><td>2.812 &mu;s</td><td>-21%</td><td>1.9%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>10</td><td>3.616 &mu;s</td><td>0.0118 &mu;s</td><td>0.0154 &mu;s</td><td>3.621 &mu;s</td><td>baseline</td><td></td><td>1.7204</td><td>-</td><td>-</td><td>21600 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>20</td><td>4.301 &mu;s</td><td>0.0091 &mu;s</td><td>0.0115 &mu;s</td><td>4.300 &mu;s</td><td>-27%</td><td>0.9%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>20</td><td>5.906 &mu;s</td><td>0.0370 &mu;s</td><td>0.0493 &mu;s</td><td>5.904 &mu;s</td><td>baseline</td><td></td><td>2.9297</td><td>-</td><td>-</td><td>36800 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>30</td><td>5.942 &mu;s</td><td>0.0289 &mu;s</td><td>0.0365 &mu;s</td><td>5.953 &mu;s</td><td>-20%</td><td>0.8%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>30</td><td>7.425 &mu;s</td><td>0.0298 &mu;s</td><td>0.0366 &mu;s</td><td>7.436 &mu;s</td><td>baseline</td><td></td><td>2.9297</td><td>-</td><td>-</td><td>36800 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>40</td><td>6.153 &mu;s</td><td>0.1134 &mu;s</td><td>0.1513 &mu;s</td><td>6.203 &mu;s</td><td>-45%</td><td>3.4%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>40</td><td>11.172 &mu;s</td><td>0.2280 &mu;s</td><td>0.2625 &mu;s</td><td>11.271 &mu;s</td><td>baseline</td><td></td><td>5.1575</td><td>-</td><td>-</td><td>64800 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>50</td><td>9.115 &mu;s</td><td>0.0354 &mu;s</td><td>0.0472 &mu;s</td><td>9.133 &mu;s</td><td>-26%</td><td>0.6%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>50</td><td>12.391 &mu;s</td><td>0.0280 &mu;s</td><td>0.0374 &mu;s</td><td>12.400 &mu;s</td><td>baseline</td><td></td><td>5.1575</td><td>-</td><td>-</td><td>64800 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>60</td><td>5.515 &mu;s</td><td>0.2379 &mu;s</td><td>0.3175 &mu;s</td><td>5.469 &mu;s</td><td>-59%</td><td>5.7%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>60</td><td>13.512 &mu;s</td><td>0.0434 &mu;s</td><td>0.0565 &mu;s</td><td>13.526 &mu;s</td><td>baseline</td><td></td><td>5.1575</td><td>-</td><td>-</td><td>64800 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>70</td><td>5.549 &mu;s</td><td>0.1035 &mu;s</td><td>0.1382 &mu;s</td><td>5.545 &mu;s</td><td>-71%</td><td>2.5%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>70</td><td>18.952 &mu;s</td><td>0.0444 &mu;s</td><td>0.0592 &mu;s</td><td>18.957 &mu;s</td><td>baseline</td><td></td><td>9.4299</td><td>-</td><td>-</td><td>118400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>80</td><td>5.927 &mu;s</td><td>0.0312 &mu;s</td><td>0.0416 &mu;s</td><td>5.930 &mu;s</td><td>-70%</td><td>1.1%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>80</td><td>19.505 &mu;s</td><td>0.1229 &mu;s</td><td>0.1598 &mu;s</td><td>19.520 &mu;s</td><td>baseline</td><td></td><td>9.4299</td><td>-</td><td>-</td><td>118400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>90</td><td>6.371 &mu;s</td><td>0.0219 &mu;s</td><td>0.0277 &mu;s</td><td>6.371 &mu;s</td><td>-69%</td><td>0.8%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>90</td><td>20.373 &mu;s</td><td>0.1097 &mu;s</td><td>0.1465 &mu;s</td><td>20.305 &mu;s</td><td>baseline</td><td></td><td>9.4299</td><td>-</td><td>-</td><td>118400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>100</td><td>16.753 &mu;s</td><td>0.0823 &mu;s</td><td>0.1070 &mu;s</td><td>16.775 &mu;s</td><td>-21%</td><td>2.0%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>100</td><td>21.267 &mu;s</td><td>0.3132 &mu;s</td><td>0.4181 &mu;s</td><td>21.456 &mu;s</td><td>baseline</td><td></td><td>9.4299</td><td>-</td><td>-</td><td>118400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>200</td><td>13.411 &mu;s</td><td>0.1598 &mu;s</td><td>0.1962 &mu;s</td><td>13.367 &mu;s</td><td>-62%</td><td>1.5%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>200</td><td>34.952 &mu;s</td><td>0.1282 &mu;s</td><td>0.1667 &mu;s</td><td>34.930 &mu;s</td><td>baseline</td><td></td><td>17.7612</td><td>-</td><td>-</td><td>223200 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>300</td><td>19.079 &mu;s</td><td>0.1818 &mu;s</td><td>0.2428 &mu;s</td><td>19.139 &mu;s</td><td>-63%</td><td>1.4%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>300</td><td>51.744 &mu;s</td><td>0.2924 &mu;s</td><td>0.3698 &mu;s</td><td>51.861 &mu;s</td><td>baseline</td><td></td><td>34.3018</td><td>-</td><td>-</td><td>430400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>400</td><td>25.067 &mu;s</td><td>0.2209 &mu;s</td><td>0.2873 &mu;s</td><td>25.140 &mu;s</td><td>-56%</td><td>1.6%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>400</td><td>57.521 &mu;s</td><td>0.4932 &mu;s</td><td>0.6584 &mu;s</td><td>57.425 &mu;s</td><td>baseline</td><td></td><td>34.3018</td><td>-</td><td>-</td><td>430400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>500</td><td>29.039 &mu;s</td><td>0.7623 &mu;s</td><td>1.0176 &mu;s</td><td>28.337 &mu;s</td><td>-48%</td><td>3.6%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>500</td><td>55.874 &mu;s</td><td>0.5027 &mu;s</td><td>0.6711 &mu;s</td><td>56.327 &mu;s</td><td>baseline</td><td></td><td>34.3018</td><td>-</td><td>-</td><td>430400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>600</td><td>33.703 &mu;s</td><td>0.1077 &mu;s</td><td>0.1400 &mu;s</td><td>33.690 &mu;s</td><td>-63%</td><td>0.8%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>600</td><td>90.484 &mu;s</td><td>0.4498 &mu;s</td><td>0.6004 &mu;s</td><td>90.519 &mu;s</td><td>baseline</td><td></td><td>67.1387</td><td>-</td><td>-</td><td>842400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>700</td><td>38.975 &mu;s</td><td>0.2528 &mu;s</td><td>0.3288 &mu;s</td><td>38.888 &mu;s</td><td>-58%</td><td>1.2%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>700</td><td>92.018 &mu;s</td><td>0.6131 &mu;s</td><td>0.8185 &mu;s</td><td>92.141 &mu;s</td><td>baseline</td><td></td><td>67.1387</td><td>-</td><td>-</td><td>842400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>800</td><td>46.928 &mu;s</td><td>0.1600 &mu;s</td><td>0.2081 &mu;s</td><td>46.945 &mu;s</td><td>-49%</td><td>1.0%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>800</td><td>92.196 &mu;s</td><td>0.6398 &mu;s</td><td>0.8541 &mu;s</td><td>91.758 &mu;s</td><td>baseline</td><td></td><td>67.1387</td><td>-</td><td>-</td><td>842400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>900</td><td>49.672 &mu;s</td><td>0.3328 &mu;s</td><td>0.3961 &mu;s</td><td>49.643 &mu;s</td><td>-50%</td><td>1.2%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>900</td><td>98.417 &mu;s</td><td>0.7442 &mu;s</td><td>0.9412 &mu;s</td><td>98.545 &mu;s</td><td>baseline</td><td></td><td>67.1387</td><td>-</td><td>-</td><td>842400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>1000</td><td>55.180 &mu;s</td><td>0.2329 &mu;s</td><td>0.3028 &mu;s</td><td>55.085 &mu;s</td><td>-47%</td><td>1.4%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>1000</td><td>103.634 &mu;s</td><td>1.0723 &mu;s</td><td>1.4315 &mu;s</td><td>103.394 &mu;s</td><td>baseline</td><td></td><td>67.1387</td><td>-</td><td>-</td><td>842400 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>2000</td><td>115.142 &mu;s</td><td>0.5451 &mu;s</td><td>0.7277 &mu;s</td><td>115.083 &mu;s</td><td>-41%</td><td>1.2%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>2000</td><td>194.090 &mu;s</td><td>1.4450 &mu;s</td><td>1.9291 &mu;s</td><td>194.122 &mu;s</td><td>baseline</td><td></td><td>132.5684</td><td>-</td><td>-</td><td>1664000 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>3000</td><td>161.323 &mu;s</td><td>0.5664 &mu;s</td><td>0.7163 &mu;s</td><td>161.312 &mu;s</td><td>-45%</td><td>0.5%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>3000</td><td>292.483 &mu;s</td><td>0.7422 &mu;s</td><td>0.9386 &mu;s</td><td>292.222 &mu;s</td><td>baseline</td><td></td><td>262.6953</td><td>21.4844</td><td>-</td><td>3304800 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>4000</td><td>215.245 &mu;s</td><td>0.9546 &mu;s</td><td>1.2744 &mu;s</td><td>215.164 &mu;s</td><td>-38%</td><td>1.1%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>4000</td><td>348.440 &mu;s</td><td>2.4616 &mu;s</td><td>3.2008 &mu;s</td><td>347.951 &mu;s</td><td>baseline</td><td></td><td>262.6953</td><td>21.4844</td><td>-</td><td>3304800 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>5000</td><td>268.300 &mu;s</td><td>1.4226 &mu;s</td><td>1.8991 &mu;s</td><td>267.733 &mu;s</td><td>-48%</td><td>0.8%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>5000</td><td>513.131 &mu;s</td><td>1.9910 &mu;s</td><td>2.5180 &mu;s</td><td>514.290 &mu;s</td><td>baseline</td><td></td><td>523.4375</td><td>-</td><td>-</td><td>6584000 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>6000</td><td>344.190 &mu;s</td><td>5.8309 &mu;s</td><td>7.1608 &mu;s</td><td>347.659 &mu;s</td><td>-40%</td><td>2.4%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>6000</td><td>575.932 &mu;s</td><td>5.2317 &mu;s</td><td>6.9842 &mu;s</td><td>573.402 &mu;s</td><td>baseline</td><td></td><td>523.4375</td><td>-</td><td>-</td><td>6584000 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>7000</td><td>381.576 &mu;s</td><td>0.7849 &mu;s</td><td>1.0206 &mu;s</td><td>381.622 &mu;s</td><td>-38%</td><td>0.6%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>7000</td><td>619.069 &mu;s</td><td>2.6051 &mu;s</td><td>3.2946 &mu;s</td><td>619.501 &mu;s</td><td>baseline</td><td></td><td>523.4375</td><td>-</td><td>-</td><td>6584000 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>8000</td><td>434.079 &mu;s</td><td>0.7618 &mu;s</td><td>0.8773 &mu;s</td><td>434.006 &mu;s</td><td>-36%</td><td>0.5%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>8000</td><td>673.356 &mu;s</td><td>2.6182 &mu;s</td><td>3.3112 &mu;s</td><td>672.615 &mu;s</td><td>baseline</td><td></td><td>523.4375</td><td>-</td><td>-</td><td>6584000 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>9000</td><td>494.208 &mu;s</td><td>1.1620 &mu;s</td><td>1.4695 &mu;s</td><td>494.606 &mu;s</td><td>-48%</td><td>0.4%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>9000</td><td>956.227 &mu;s</td><td>2.3268 &mu;s</td><td>2.9427 &mu;s</td><td>956.050 &mu;s</td><td>baseline</td><td></td><td>1041.0156</td><td>-</td><td>-</td><td>13140000 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>10000</td><td>609.690 &mu;s</td><td>18.7883 &mu;s</td><td>25.0819 &mu;s</td><td>599.164 &mu;s</td><td>-43%</td><td>5.5%</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-100%</td>
+</tr><tr><td>CreatNewList</td><td>10000</td><td>1,066.596 &mu;s</td><td>33.1738 &mu;s</td><td>41.9542 &mu;s</td><td>1,056.572 &mu;s</td><td>baseline</td><td></td><td>1041.0156</td><td>-</td><td>-</td><td>13140001 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>20000</td><td>1,728.867 &mu;s</td><td>94.0537 &mu;s</td><td>125.5590 &mu;s</td><td>1,729.509 &mu;s</td><td>-65%</td><td>7.1%</td><td>-</td><td>-</td><td>-</td><td>1 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>20000</td><td>4,963.826 &mu;s</td><td>17.9521 &mu;s</td><td>21.3707 &mu;s</td><td>4,961.635 &mu;s</td><td>baseline</td><td></td><td>4164.0625</td><td>4164.0625</td><td>4164.0625</td><td>26251002 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>30000</td><td>2,415.284 &mu;s</td><td>166.4402 &mu;s</td><td>222.1930 &mu;s</td><td>2,471.769 &mu;s</td><td>-62%</td><td>9.0%</td><td>-</td><td>-</td><td>-</td><td>2 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>30000</td><td>6,404.390 &mu;s</td><td>11.2237 &mu;s</td><td>14.5939 &mu;s</td><td>6,404.204 &mu;s</td><td>baseline</td><td></td><td>4164.0625</td><td>4164.0625</td><td>4164.0625</td><td>26251002 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>40000</td><td>2,921.060 &mu;s</td><td>193.1088 &mu;s</td><td>257.7947 &mu;s</td><td>2,841.140 &mu;s</td><td>-80%</td><td>8.7%</td><td>-</td><td>-</td><td>-</td><td>2 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>40000</td><td>14,881.140 &mu;s</td><td>38.5942 &mu;s</td><td>50.1833 &mu;s</td><td>14,884.233 &mu;s</td><td>baseline</td><td></td><td>12484.3750</td><td>12484.3750</td><td>12484.3750</td><td>52470601 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>50000</td><td>3,589.852 &mu;s</td><td>207.3034 &mu;s</td><td>276.7442 &mu;s</td><td>3,520.990 &mu;s</td><td>-78%</td><td>7.6%</td><td>-</td><td>-</td><td>-</td><td>2 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>50000</td><td>16,274.730 &mu;s</td><td>48.3769 &mu;s</td><td>64.5818 &mu;s</td><td>16,286.406 &mu;s</td><td>baseline</td><td></td><td>12468.7500</td><td>12468.7500</td><td>12468.7500</td><td>52470602 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>60000</td><td>4,284.567 &mu;s</td><td>222.8146 &mu;s</td><td>297.4511 &mu;s</td><td>4,198.755 &mu;s</td><td>-78%</td><td>6.9%</td><td>-</td><td>-</td><td>-</td><td>3 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>60000</td><td>19,527.081 &mu;s</td><td>184.7176 &mu;s</td><td>246.5928 &mu;s</td><td>19,413.034 &mu;s</td><td>baseline</td><td></td><td>12468.7500</td><td>12468.7500</td><td>12468.7500</td><td>52470602 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>70000</td><td>4,943.631 &mu;s</td><td>319.9544 &mu;s</td><td>427.1300 &mu;s</td><td>4,871.114 &mu;s</td><td>-80%</td><td>8.5%</td><td>-</td><td>-</td><td>-</td><td>3 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>70000</td><td>24,664.111 &mu;s</td><td>75.7184 &mu;s</td><td>98.4553 &mu;s</td><td>24,683.767 &mu;s</td><td>baseline</td><td></td><td>28562.5000</td><td>28562.5000</td><td>28562.5000</td><td>104907210 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>80000</td><td>6,129.629 &mu;s</td><td>448.9472 &mu;s</td><td>599.3317 &mu;s</td><td>6,309.472 &mu;s</td><td>-78%</td><td>9.9%</td><td>-</td><td>-</td><td>-</td><td>3 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>80000</td><td>28,105.452 &mu;s</td><td>508.0536 &mu;s</td><td>678.2370 &mu;s</td><td>27,707.234 &mu;s</td><td>baseline</td><td></td><td>28562.5000</td><td>28562.5000</td><td>28562.5000</td><td>104907210 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>90000</td><td>6,344.314 &mu;s</td><td>289.1802 &mu;s</td><td>386.0472 &mu;s</td><td>6,216.409 &mu;s</td><td>-77%</td><td>6.0%</td><td>-</td><td>-</td><td>-</td><td>3 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>90000</td><td>28,113.302 &mu;s</td><td>72.0022 &mu;s</td><td>91.0598 &mu;s</td><td>28,134.256 &mu;s</td><td>baseline</td><td></td><td>28562.5000</td><td>28562.5000</td><td>28562.5000</td><td>104907210 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>100000</td><td>7,113.575 &mu;s</td><td>680.6219 &mu;s</td><td>908.6107 &mu;s</td><td>6,838.427 &mu;s</td><td>-73%</td><td>12.5%</td><td>-</td><td>-</td><td>-</td><td>3 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>100000</td><td>26,393.972 &mu;s</td><td>98.0204 &mu;s</td><td>116.6864 &mu;s</td><td>26,394.944 &mu;s</td><td>baseline</td><td></td><td>28562.5000</td><td>28562.5000</td><td>28562.5000</td><td>104907210 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>200000</td><td>14,286.307 &mu;s</td><td>1,041.5720 &mu;s</td><td>1,390.4689 &mu;s</td><td>13,843.416 &mu;s</td><td>-81%</td><td>9.6%</td><td>-</td><td>-</td><td>-</td><td>6 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>200000</td><td>75,665.102 &mu;s</td><td>477.1609 &mu;s</td><td>620.4440 &mu;s</td><td>75,574.525 &mu;s</td><td>baseline</td><td></td><td>49875.0000</td><td>49875.0000</td><td>49875.0000</td><td>209774408 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>300000</td><td>17,804.970 &mu;s</td><td>191.0536 &mu;s</td><td>248.4236 &mu;s</td><td>17,684.428 &mu;s</td><td>-86%</td><td>3.1%</td><td>-</td><td>-</td><td>-</td><td>12 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>300000</td><td>131,635.333 &mu;s</td><td>2,774.9125 &mu;s</td><td>3,608.1703 &mu;s</td><td>133,236.487 &mu;s</td><td>baseline</td><td></td><td>99750.0000</td><td>99750.0000</td><td>99750.0000</td><td>419508816 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>400000</td><td>25,422.162 &mu;s</td><td>751.7251 &mu;s</td><td>977.4550 &mu;s</td><td>25,579.152 &mu;s</td><td>-83%</td><td>4.8%</td><td>-</td><td>-</td><td>-</td><td>12 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>400000</td><td>148,346.866 &mu;s</td><td>3,310.7234 &mu;s</td><td>4,419.7210 &mu;s</td><td>150,438.075 &mu;s</td><td>baseline</td><td></td><td>99750.0000</td><td>99750.0000</td><td>99750.0000</td><td>419508816 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>500000</td><td>31,261.421 &mu;s</td><td>165.3071 &mu;s</td><td>196.7863 &mu;s</td><td>31,215.556 &mu;s</td><td>-81%</td><td>5.4%</td><td>-</td><td>-</td><td>-</td><td>25 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>500000</td><td>166,659.747 &mu;s</td><td>6,581.7323 &mu;s</td><td>8,786.4244 &mu;s</td><td>168,501.425 &mu;s</td><td>baseline</td><td></td><td>99750.0000</td><td>99750.0000</td><td>99750.0000</td><td>419508816 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>600000</td><td>50,980.590 &mu;s</td><td>772.5889 &mu;s</td><td>977.0777 &mu;s</td><td>51,201.817 &mu;s</td><td>-79%</td><td>4.2%</td><td>-</td><td>-</td><td>-</td><td>33 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>600000</td><td>242,218.377 &mu;s</td><td>7,825.4027 &mu;s</td><td>9,610.2981 &mu;s</td><td>240,154.825 &mu;s</td><td>baseline</td><td></td><td>198000.0000</td><td>198000.0000</td><td>198000.0000</td><td>838968884 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>700000</td><td>48,034.409 &mu;s</td><td>1,459.4891 &mu;s</td><td>1,948.3762 &mu;s</td><td>47,659.427 &mu;s</td><td>-82%</td><td>5.7%</td><td>-</td><td>-</td><td>-</td><td>36 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>700000</td><td>260,868.678 &mu;s</td><td>8,240.0418 &mu;s</td><td>11,000.2200 &mu;s</td><td>256,761.400 &mu;s</td><td>baseline</td><td></td><td>193500.0000</td><td>193500.0000</td><td>193500.0000</td><td>838966796 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>800000</td><td>50,469.331 &mu;s</td><td>880.3179 &mu;s</td><td>1,175.1991 &mu;s</td><td>50,269.291 &mu;s</td><td>-81%</td><td>4.6%</td><td>-</td><td>-</td><td>-</td><td>36 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>800000</td><td>267,407.074 &mu;s</td><td>9,544.6887 &mu;s</td><td>10,608.8962 &mu;s</td><td>271,313.750 &mu;s</td><td>baseline</td><td></td><td>198500.0000</td><td>198500.0000</td><td>198500.0000</td><td>838968968 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>900000</td><td>75,829.750 &mu;s</td><td>598.1237 &mu;s</td><td>798.4780 &mu;s</td><td>75,931.580 &mu;s</td><td>-73%</td><td>3.4%</td><td>-</td><td>-</td><td>-</td><td>40 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>900000</td><td>285,734.272 &mu;s</td><td>7,540.2571 &mu;s</td><td>9,536.0117 &mu;s</td><td>284,801.950 &mu;s</td><td>baseline</td><td></td><td>189500.0000</td><td>189500.0000</td><td>189500.0000</td><td>838965104 B</td><td></td>
+</tr><tr><td>UsePooledList</td><td>1000000</td><td>64,513.506 &mu;s</td><td>1,873.3376 &mu;s</td><td>2,435.8682 &mu;s</td><td>64,110.239 &mu;s</td><td>-78%</td><td>5.1%</td><td>-</td><td>-</td><td>-</td><td>44 B</td><td>-100.0%</td>
+</tr><tr><td>CreatNewList</td><td>1000000</td><td>296,918.974 &mu;s</td><td>7,648.7902 &mu;s</td><td>10,210.9161 &mu;s</td><td>299,393.600 &mu;s</td><td>baseline</td><td></td><td>183000.0000</td><td>183000.0000</td><td>183000.0000</td><td>838962476 B</td><td></td>
+</tr></tbody></table>
+</body>
+</html>
