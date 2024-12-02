@@ -23,7 +23,7 @@ public class ArrayPoolBenchmark
     }
 
     [Benchmark]
-    public int ArrayPoolRent()
+    public int SharedArrayPool()
     {
         var sum = 0;
         var pool = ArrayPool<int>.Shared;
@@ -36,8 +36,22 @@ public class ArrayPoolBenchmark
         return sum;
     }
 
+    [Benchmark]
+    public int ConfigurableArrayPool()
+    {
+        var sum = 0;
+        var pool = ArrayPool<int>.Create();
+        for (var i = 0; i < 100; i++)
+        {
+            int[] array = pool.Rent(Size);
+            for (var j = 0; j < Size; j++) sum += array[j];
+            pool.Return(array, true);
+        }
+        return sum;
+    }
+
     [Benchmark(Baseline = true)]
-    public int CreatNewList()
+    public int CreatNewArray()
     {
         var sum = 0;
         for (int i = 0; i < 100; i++)
