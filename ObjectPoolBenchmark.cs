@@ -6,70 +6,76 @@ namespace Benchmark;
 
 [CategoriesColumn]
 [MemoryDiagnoser]
-[SimpleJob(iterationCount: 25)]
-public class ObjectPoolBenchmark
+[SimpleJob(iterationCount: IterationCount)]
+public class ObjectPoolBenchmark : BenchmarkBase
 {
-    [ParamsSource(nameof(GetLengths))]
-    public int Size { get; set; }
-
-    public static IEnumerable<int> GetLengths()
-    {
-        for (var i = 10; i < 100; i += 10) yield return i;
-        for (var i = 100; i < 1000; i += 100) yield return i;
-        for (var i = 1000; i < 10_000; i += 1000) yield return i;
-        for (var i = 10_000; i < 100_000; i += 10_000) yield return i;
-        for (var i = 100_000; i < 1_000_000; i += 100_000) yield return i;
-        yield return 1_000_000;
-    }
-
+    private Task[] _tasks = default!;
     private ObjectPool<List<int>> pool = default!;
 
+    [ParamsSource(nameof(Sizes))]
+    public int Size { get; set; }
+
+    [ParamsSource(nameof(ThreadCounts))]
+    public int ThreadCount { get; set; }
+
     [GlobalSetup]
-    public void GlobalSetup() => pool = ObjectPool.Create<List<int>>();
+    public void GlobalSetup()
+    {
+        _tasks = new Task[ThreadCount];
+        pool = Microsoft.Extensions.ObjectPool.ObjectPool.Create(new ListPolicy(Size));
+    }
 
     [Benchmark]
-    public int UsePooledList()
+    public void ObjectPool()
     {
-        var value = 0;
-
-        for (var i = 0; i < 100; i++)
+        for (int i = 0; i < ThreadCount; i++)
         {
-            var list = pool.Get();
-
-            for (var j = 0; j < Size; j++) list.Add(j);
-            value += list.Count;
-
-            pool.Return(list);
+            _tasks[i] = Task.Run(() =>
+            {
+                var sum = 0;
+                for (int i = 0; i < RepetitionsCount; i++)
+                {
+                    var list = pool.Get();
+                    for (var j = 0; j < Size; j++) list.Add(j);
+                    sum += list.Count;
+                    pool.Return(list);
+                }
+                return sum;
+            });
         }
 
-        return value;
+        Task.WaitAll(_tasks);
     }
 
     [Benchmark(Baseline = true)]
-    public int CreatNewList()
+    public void CreatNewList()
     {
-        var value = 0;
-
-        for (var i = 0; i < 100; i++)
+        for (int i = 0; i < ThreadCount; i++)
         {
-            var list = new List<int>();
-
-            for (var j = 0; j < Size; j++) list.Add(j);
-
-            value += list.Count;
+            _tasks[i] = Task.Run(() =>
+            {
+                var sum = 0;
+                for (int i = 0; i < RepetitionsCount; i++)
+                {
+                    var list = new List<int>(Size);
+                    for (var j = 0; j < Size; j++) list.Add(j);
+                    sum += list.Count;
+                }
+                return sum;
+            });
         }
 
-        return value;
+        Task.WaitAll(_tasks);
     }
 
-public class ListPolicy : IPooledObjectPolicy<List<int>>
-{
-    public List<int> Create() => [];
-
-    public bool Return(List<int> obj)
+    public class ListPolicy(int size) : IPooledObjectPolicy<List<int>>
     {
-        obj.Clear();
-        return true;
+        public List<int> Create() => new(size);
+
+        public bool Return(List<int> obj)
+        {
+            obj.Clear();
+            return true;
+        }
     }
-}
 }

@@ -6,59 +6,86 @@ namespace Benchmark;
 
 [CategoriesColumn]
 [MemoryDiagnoser]
-[SimpleJob(iterationCount: 25)]
-public class ArrayPoolBenchmark
+[SimpleJob(iterationCount: IterationCount)]
+public class ArrayPoolBenchmark : BenchmarkBase
 {
-    [ParamsSource(nameof(GetLengths))]
+    private Task[] _tasks = default!;
+    private ArrayPool<int> _sharedArrayPool = default!;
+    private ArrayPool<int> _configurableArrayPool = default!;
+
+    [ParamsSource(nameof(Sizes))]
     public int Size { get; set; }
 
-    public static IEnumerable<int> GetLengths()
-    {
-        for (var i = 10; i < 100; i += 10) yield return i;
-        for (var i = 100; i < 1000; i += 100) yield return i;
-        for (var i = 1000; i < 10_000; i += 1000) yield return i;
-        for (var i = 10_000; i < 100_000; i += 10_000) yield return i;
-        for (var i = 100_000; i < 1_000_000; i += 100_000) yield return i;
-        yield return 1_000_000;
-    }
+    [ParamsSource(nameof(ThreadCounts))]
+    public int ThreadCount { get; set; }
 
-    [Benchmark]
-    public int SharedArrayPool()
+    [GlobalSetup]
+    public void GlobalSetup()
     {
-        var sum = 0;
-        var pool = ArrayPool<int>.Shared;
-        for (var i = 0; i < 100; i++)
-        {
-            int[] array = pool.Rent(Size);
-            for (var j = 0; j < Size; j++) sum += array[j];
-            pool.Return(array, true);
-        }
-        return sum;
-    }
-
-    [Benchmark]
-    public int ConfigurableArrayPool()
-    {
-        var sum = 0;
-        var pool = ArrayPool<int>.Create();
-        for (var i = 0; i < 100; i++)
-        {
-            int[] array = pool.Rent(Size);
-            for (var j = 0; j < Size; j++) sum += array[j];
-            pool.Return(array, true);
-        }
-        return sum;
+        _tasks = new Task[ThreadCount];
+        _sharedArrayPool = ArrayPool<int>.Shared;
+        _configurableArrayPool = ArrayPool<int>.Create();
     }
 
     [Benchmark(Baseline = true)]
-    public int CreatNewArray()
+    public void CreatNewArray()
     {
-        var sum = 0;
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < ThreadCount; i++)
         {
-            int[] array = new int[Size];
-            for (var j = 0; j < Size; j++) sum += array[j];
+            _tasks[i] = Task.Run(() =>
+            {
+                var sum = 0;
+                for (int i = 0; i < RepetitionsCount; i++)
+                {
+                    int[] array = new int[Size];
+                    for (var j = 0; j < Size; j++) sum += array[j];
+                }
+                return sum;
+            });
         }
-        return sum;
+
+        Task.WaitAll(_tasks);
+    }
+
+    [Benchmark]
+    public void SharedArrayPool()
+    {
+        for (int i = 0; i < ThreadCount; i++)
+        {
+            _tasks[i] = Task.Run(() =>
+            {
+                var sum = 0;
+                for (int i = 0; i < RepetitionsCount; i++)
+                {
+                    int[] array = _sharedArrayPool.Rent(Size);
+                    for (var j = 0; j < Size; j++) sum += array[j];
+                    _sharedArrayPool.Return(array, true);
+                }
+                return sum;
+            });
+        }
+
+        Task.WaitAll(_tasks);
+    }
+
+    [Benchmark]
+    public void ConfigurableArrayPool()
+    {
+        for (int i = 0; i < ThreadCount; i++)
+        {
+            _tasks[i] = Task.Run(() =>
+            {
+                var sum = 0;
+                for (int i = 0; i < RepetitionsCount; i++)
+                {
+                    int[] array = _configurableArrayPool.Rent(Size);
+                    for (var j = 0; j < Size; j++) sum += array[j];
+                    _configurableArrayPool.Return(array, true);
+                }
+                return sum;
+            });
+        }
+
+        Task.WaitAll(_tasks);
     }
 }
